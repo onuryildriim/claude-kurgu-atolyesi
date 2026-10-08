@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Claude Code ile konuşan-kafa YouTube videolarını kodla kurgulama atölyesi (Remotion + FFmpeg)",
   "repository": {},
-  "license": "UNLICENSED",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@remotion/bundler": "4.0.526",

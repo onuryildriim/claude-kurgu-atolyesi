@@ -129,6 +129,18 @@ ne zaman girdiği, ne yazdığı, hangi cümleye dayandığı ve neden orada old
 
 - **Claude ses duyamaz ve HDR göremez.** Kareleri ve ölçümleri kendisi kontrol eder; müzik dengesini ve son
   görüntüyü senin gözün ve kulağın onaylar. Teslim mesajında neye bakman gerektiğini ayrıca yazar.
-- Remotion'ın şirketler için lisans koşulları var: https://www.remotion.dev/license
 - Ses efektleri kodla üretilir (lisans derdi yok). Kendi efektlerini `library/audio/sfx/` içine koyabilirsin.
 - Başka kanalların ekran görüntülerini repoya koyma; `marka/style-refs/` klasörü yalnızca sende kalsın.
+
+## Lisans
+
+Bu repodaki kod ve dokümanlar **MIT** lisanslıdır (`LICENSE`): kullan, değiştir, paylaş.
+
+Kurulan paketler kendi lisanslarıyla gelir; repoya kopyalanmaz, `npm install` ile senin bilgisayarına iner:
+
+- **Remotion**: bireyler ve en fazla 3 çalışanlı şirketler için ücretsiz. Daha büyük şirketler için ücretli
+  "Company License" gerekir: https://www.remotion.dev/license
+- React, zod, Tailwind (MIT) · d3-geo, topojson, world-atlas (ISC) · Google Fonts (OFL) · whisper.cpp (MIT):
+  serbest.
+- FFmpeg'i kendin kurarsın; ürettiğin videolar sana aittir.
+- Videonda kullandığın müzik ve görsellerin hakları senin sorumluluğunda.
