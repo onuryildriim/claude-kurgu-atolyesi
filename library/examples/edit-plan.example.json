@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "source": { "path": "public/main.mov", "fps": 30, "frames": 900, "durationSeconds": 30 },
+  "language": "tr",
+  "notes": [
+    "DEMO PLAN — gerçek bir video değil. Şemayı (src/plan/schema.ts) ve yazım biçimini göstermek için var.",
+    "Zamanlar kaynak zaman çizelgesinde mutlak saniyedir; her öğe, onu söyleyen kelimenin zamanında (at) gelir.",
+    "Her olay destekleyen transcript cümlesini ve bir reason taşır. Rakamlar yalnızca konuşmada geçenlerdir."
+  ],
+  "unusedAssets": [],
+  "quietSections": [{ "start": 24, "end": 26, "reason": "Kişisel ara söz; grafik anlatımı bölerdi." }],
+  "events": [
+    {
+      "id": "E01", "type": "kinetic", "start": 0.4, "end": 5.2, "side": "full",
+      "position": "tam ekran tez, ortalı", "enter": "kelime kelime", "exit": "sönerek",
+      "transcript": "Videolarımı artık kod yazarak kurguluyorum.",
+      "reason": "Videonun vaadi; ilk saniyelerde net bir tez.",
+      "content": { "kicker": "BU VİDEODA", "align": "center", "lines": [
+        { "at": 0.6, "text": "Videolarımı artık", "accent": [] },
+        { "at": 1.8, "text": "kod yazarak kurguluyorum.", "accent": ["kod"] }
+      ] }
+    },
+    {
+      "id": "E02", "type": "tag", "start": 6, "end": 20, "side": "left",
+      "position": "sol üst, bölüm boyunca", "enter": "nokta + metin", "exit": "sönerek",
+      "transcript": "İlk olarak kurulumdan başlayalım.",
+      "reason": "Bölüm etiketi = YouTube bölüm listesi.",
+      "content": { "index": "01", "label": "KURULUM" }
+    },
+    {
+      "id": "E03", "type": "callout", "start": 7, "end": 13, "side": "right",
+      "position": "sağ üst panel", "enter": "kayarak", "exit": "sönerek",
+      "transcript": "Tek ihtiyacın Claude Code ve birkaç ücretsiz araç.",
+      "reason": "Bölümün ana cümlesi.",
+      "content": { "kicker": "KURULUM", "headline": "Tek ihtiyacın Claude Code", "sub": "+ birkaç ücretsiz araç", "subAt": 9.5 }
+    },
+    {
+      "id": "E04", "type": "list", "start": 13.5, "end": 21, "side": "right",
+      "position": "sağ üst panel", "enter": "kayarak", "exit": "sönerek",
+      "transcript": "Node, FFmpeg ve Whisper. Gerisini Claude kuruyor.",
+      "reason": "Söylenen üç araç, söylendikleri anda.",
+      "content": { "kicker": "ARAÇLAR", "title": "Gerekenler", "marker": "check", "items": [
+        { "at": 14, "text": "Node.js" }, { "at": 15.2, "text": "FFmpeg" }, { "at": 16.4, "text": "Whisper" }
+      ] }
+    },
+    {
+      "id": "E05", "type": "social", "start": 26.5, "end": 30, "side": "right",
+      "position": "sağ üst kapanış kartı", "enter": "kayarak", "exit": "video sonu",
+      "transcript": "Kanala abone olmayı unutma.",
+      "reason": "Kapanış kartı (markada tanımlı).",
+      "content": { "kicker": "TAKİP ET", "handle": "@kanal_adin", "cta": { "at": 27, "text": "Kanala abone olmayı unutma :)" } }
+    }
+  ]
+}

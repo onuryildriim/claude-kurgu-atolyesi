@@ -1,0 +1,57 @@
+{
+  "name": "claude-kurgu-atolyesi",
+  "version": "1.0.0",
+  "description": "Claude Code ile konuşan-kafa YouTube videolarını kodla kurgulama atölyesi (Remotion + FFmpeg)",
+  "repository": {},
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@remotion/bundler": "4.0.526",
+    "@remotion/cli": "4.0.526",
+    "@remotion/google-fonts": "4.0.526",
+    "@remotion/media": "4.0.526",
+    "@remotion/renderer": "4.0.526",
+    "@remotion/tailwind-v4": "4.0.526",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.526",
+    "tailwindcss": "4.0.0",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.526",
+    "@types/react": "19.2.7",
+    "@types/web": "0.0.166",
+    "d3-geo": "^3.1.1",
+    "eslint": "9.19.0",
+    "prettier": "3.8.1",
+    "topojson-client": "^3.1.0",
+    "typescript": "5.9.3",
+    "world-atlas": "^2.0.2"
+  },
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion bundle",
+    "upgrade": "remotion upgrade",
+    "lint": "eslint src && tsc",
+    "probe": "node scripts/00-probe.mjs",
+    "proxy": "node scripts/10-proxy.mjs",
+    "transcribe": "node scripts/20-transcribe.mjs && node scripts/21-review-transcript.mjs",
+    "assets": "node scripts/30-normalize-assets.mjs",
+    "luts": "node scripts/40-make-luts.mjs",
+    "plan:check": "node scripts/50-validate-plan.mjs",
+    "render:gfx": "node scripts/50-validate-plan.mjs && node scripts/60-render-segments.mjs",
+    "stills": "node scripts/65-design-stills.mjs",
+    "composite:draft": "node scripts/70-composite.mjs --draft",
+    "composite": "node scripts/70-composite.mjs",
+    "qc:draft": "node scripts/80-qc.mjs --file work/composite/draft-hlg.mov --stills",
+    "qc": "node scripts/80-qc.mjs --file work/composite/final-hlg.candidate.mov --stills --promote --promote-to out/final-hlg.temiz-ses.mov",
+    "audio": "node scripts/lib/synth.mjs && node scripts/75-audio.mjs --mux",
+    "qc:mix": "node scripts/80-qc.mjs --file work/composite/final-hlg.mix.candidate.mov --audio mix --clean out/final-hlg.temiz-ses.mov --skip-decode --promote",
+    "master": "npm run render:gfx && npm run composite && npm run qc && npm run audio && npm run qc:mix",
+    "shorts": "node scripts/90-shorts.mjs"
+  },
+  "sideEffects": [
+    "*.css"
+  ]
+}

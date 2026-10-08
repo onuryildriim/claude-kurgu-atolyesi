@@ -1,0 +1,31 @@
+{
+  "note": "Varsayılan efekt seti: hepsi kodla sentezlenir (scripts/lib/synth.mjs → work/audio/cues/). Kendi efektlerini kullanmak için library/audio/sfx/ içine koyup buradaki yolları değiştir. MÜZİĞİ HER VİDEODA SEN VERİRSİN: public/assets içindeki ses dosyası otomatik bulunur.",
+  "music": "(otomatik: public/assets içindeki ses dosyası)",
+  "sfx": {
+    "whoosh": {
+      "fast": "work/audio/cues/swoosh-cam.wav",
+      "slow": "work/audio/cues/swoosh-deep.wav"
+    },
+    "tick": "work/audio/cues/thock.wav",
+    "transition": "work/audio/cues/swoosh-deep.wav",
+    "pen": "work/audio/cues/strike.wav",
+    "pop": "work/audio/cues/pop.wav"
+  },
+  "whooshSlowTypes": [
+    "list",
+    "steps",
+    "bars",
+    "search",
+    "stat",
+    "phone",
+    "cards"
+  ],
+  "levels": {
+    "musicDb": -22,
+    "sfxDb": -11,
+    "duck": true,
+    "duckRatio": 1.6,
+    "fadeIn": 1.5,
+    "fadeOut": 4
+  }
+}

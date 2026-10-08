@@ -1,0 +1,23 @@
+node_modules
+dist
+.DS_Store
+.env
+
+# Videolar ve ara dosyalar git'e girmez (büyük + kişisel)
+out
+projects
+public/main.mov
+public/assets/*
+!public/assets/.gitkeep
+public/proxy
+public/derived
+work/*
+!work/edit-plan.json
+library/audio/music
+
+# Üçüncü parti referans repoları (isteğe bağlı, README'ye bakın)
+/references
+
+# Başka kanalların kareleri telifli olabilir — yalnızca sende kalsın
+marka/style-refs/*
+!marka/style-refs/README.md
