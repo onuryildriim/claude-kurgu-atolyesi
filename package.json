@@ -40,6 +40,7 @@
     "assets": "node scripts/30-normalize-assets.mjs",
     "luts": "node scripts/40-make-luts.mjs",
     "plan:check": "node scripts/50-validate-plan.mjs",
+    "test:assemble": "node --test tests/assemble.test.mjs",
     "render:gfx": "node scripts/50-validate-plan.mjs && node scripts/60-render-segments.mjs",
     "stills": "node scripts/65-design-stills.mjs",
     "composite:draft": "node scripts/70-composite.mjs --draft",

@@ -48,18 +48,26 @@ const sdrToHlg = [
 ].join(",");
 
 const inputs = [], lines = [], labels = [];
-let outFrames = 0;
+let outFrames = 0, nIn = 0;
 spec.pieces.forEach((pc, i) => {
   const frames = Math.round((pc.to - pc.from) * FPS);
   const samples = Math.round((frames / FPS) * SR);
   inputs.push("-ss", pc.from.toFixed(6), "-t", ((frames + 2) / FPS).toFixed(6), "-i", p(pc.src));
+  const vi = nIn++;
+  let ai = vi; // a piece with no audio stream (e.g. a muted screen recording) gets the same length of silence;
+  // otherwise "[N:a]" matches no streams and ffmpeg fails with "Error binding filtergraph inputs/outputs"
+  if (!probe(p(pc.src)).some((s) => s.codec_type === "audio")) {
+    inputs.push("-f", "lavfi", "-t", ((frames + 2) / FPS).toFixed(6), "-i", `anullsrc=r=${SR}:cl=stereo`);
+    ai = nIn++;
+    console.log(`  ${path.basename(pc.src)}: ses akışı yok → sessizlik eklendi`);
+  }
   const v = pc.kind === "sdr"
     ? `crop=${pc.crop ? pc.crop.join(":") : "iw-mod(iw\\,16):ih"},scale=${W}:${H}:flags=lanczos${SDR_OUT ? `:in_color_matrix=bt709:in_range=tv:out_color_matrix=bt709:out_range=tv:${SWS}` : `,${sdrToHlg}`}`
     : stripDovi;
-  lines.push(`[${i}:v]${v},format=yuv422p10le,${TAGS},setsar=1,trim=end_frame=${frames},setpts=PTS-STARTPTS,fps=${num}/${den}[v${i}]`);
+  lines.push(`[${vi}:v]${v},format=yuv422p10le,${TAGS},setsar=1,trim=end_frame=${frames},setpts=PTS-STARTPTS,fps=${num}/${den}[v${i}]`);
   const gain = pc.gainDb ? `,volume=${pc.gainDb}dB,alimiter=limit=0.794:attack=2:release=60:level=disabled` : "";
   // 12 ms fades at every splice: no click where two recordings meet
-  lines.push(`[${i}:a]aresample=${SR},aformat=sample_fmts=fltp:channel_layouts=stereo${gain},apad,atrim=end_sample=${samples},asetpts=PTS-STARTPTS,afade=t=in:d=0.012,afade=t=out:st=${(samples / SR - 0.012).toFixed(4)}:d=0.012[a${i}]`);
+  lines.push(`[${ai}:a]aresample=${SR},aformat=sample_fmts=fltp:channel_layouts=stereo${gain},apad,atrim=end_sample=${samples},asetpts=PTS-STARTPTS,afade=t=in:d=0.012,afade=t=out:st=${(samples / SR - 0.012).toFixed(4)}:d=0.012[a${i}]`);
   labels.push(`[v${i}][a${i}]`);
   console.log(`parça ${i + 1}: ${path.basename(pc.src)} ${pc.from}–${pc.to} sn → çıkış ${(outFrames / FPS).toFixed(3)} sn (${frames} kare)${pc.gainDb ? `, ${pc.gainDb} dB` : ""}`);
   outFrames += frames;
@@ -79,8 +87,12 @@ if (zooms.length) {
   const Z = `(1+${sum((z) => (z.z - 1).toFixed(4))})`;
   const CX = `(0.5+${sum((z) => (z.cx - 0.5).toFixed(4))})`;
   const CY = `(0.5+${sum((z) => (z.cy - 0.5).toFixed(4))})`;
-  lines.push(`[cv]scale=w='2*trunc(${W}*${Z}/2)':h='2*trunc(${H}*${Z}/2)':eval=frame:flags=lanczos,` +
-    `crop=${W}:${H}:x='clip(iw*${CX}-${W / 2},0,iw-${W})':y='clip(ih*${CY}-${H / 2},0,ih-${H})',` +
+  // scale (eval=frame) changes the frame size per frame, but crop's iw/ih stay at the link's FIRST size (t=0 → 1×, i.e. 3840x2160):
+  // iw-W = 0, so the window stuck to the top-left corner instead of following cx/cy. crop therefore derives the size
+  // from the same t-expression scale uses.
+  const SW = `(2*trunc(${W}*${Z}/2))`, SH = `(2*trunc(${H}*${Z}/2))`;
+  lines.push(`[cv]scale=w='${SW}':h='${SH}':eval=frame:flags=lanczos,` +
+    `crop=${W}:${H}:x='clip(${SW}*${CX}-${W / 2},0,${SW}-${W})':y='clip(${SH}*${CY}-${H / 2},0,${SH}-${H})',` +
     `${TAGS}[vz]`);
 }
 mkdirSync(path.dirname(OUT), { recursive: true });
